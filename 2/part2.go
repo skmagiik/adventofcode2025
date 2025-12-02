@@ -71,6 +71,9 @@ func main() {
 			id_str := strconv.Itoa(id)
 		SegmentLenLoop:
 			for n := 1; n <= len(id_str)/2; n++ {
+				if id_str[0] != id_str[n] || len(id_str)%n != 0 {
+					continue SegmentLenLoop
+				}
 				id_segments := SplitByNBytes(id_str, n)
 				if id_segments == nil {
 					continue SegmentLenLoop
