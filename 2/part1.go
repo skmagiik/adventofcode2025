@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-func main() {
-	file, err := os.Open("input.txt")
+func CalculateResult(filename string) int {
+	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
 	}
@@ -54,11 +54,17 @@ func main() {
 		}
 
 	}
-	fmt.Println("Result:", sum)
 
 	if err := scanner.Err(); err != nil {
 		panic(err)
 
 	}
+	return sum
+}
+
+func main() {
+	sum := CalculateResult("demo.txt")
+
+	fmt.Println("Result:", sum)
 
 }

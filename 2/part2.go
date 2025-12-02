@@ -31,8 +31,8 @@ func SplitByNBytes(s string, n int) []string {
 	return result
 }
 
-func main() {
-	file, err := os.Open("input.txt")
+func CalculateResult(filename string) int {
+	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
 	}
@@ -40,14 +40,13 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	parts := make([]string, 0)
+	line := ""
 
 	if scanner.Scan() {
-		line := scanner.Text()
-		parts = strings.Split(line, ",")
-		//fmt.Println(parts)
+		line = scanner.Text()
 	}
 
+	parts := strings.Split(line, ",")
 	sum := 0
 
 	for _, part := range parts {
@@ -89,11 +88,13 @@ func main() {
 			}
 		}
 	}
-	fmt.Println("Result:", sum)
-
 	if err := scanner.Err(); err != nil {
 		panic(err)
-
 	}
+	return sum
+}
 
+func main() {
+	result := CalculateResult("input.txt")
+	fmt.Println("Result:", result)
 }
