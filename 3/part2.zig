@@ -25,6 +25,8 @@ fn getJoltage(input: []const u8, output_len: usize) !usize {
         //std.debug.print("Checking idx range: {d} - {d}\n", .{ starting_index, (input_len - (12 - output_index)) });
         for (starting_index..(input_len - ((output_len - 1) - output_index))) |i| {
             //std.debug.print("\tChecking idx:{d}, last_used_idx {d}\n", .{ i, last_used_index });
+            //std.debug.print("Output remaining: {d}\n", .{output_len - output_index});
+            //std.debug.print("Chars remaining: {d}\n", .{input_len - i});
             const char_val = try std.fmt.parseInt(usize, input[i .. i + 1], 10);
             //std.debug.print("\t\tinput[{d}..{d}] = char_val: {d}\n", .{ i, i + 1, char_val });
             if (char_val == 9) {
@@ -34,6 +36,13 @@ fn getJoltage(input: []const u8, output_len: usize) !usize {
             }
 
             if (char_val > leading_value) {
+                if ((output_len - output_index) == (input_len - i)) {
+                    //std.debug.print("We can stop here! output_index: {d}, idx: {d}\n", .{ output_index, i });
+                    const rem_val = try std.fmt.parseInt(usize, input[i..input_len], 10);
+                    output += rem_val;
+                    //std.debug.print("Output {d} from idx {d}\n", .{ output, last_used_index - 1 });
+                    return output;
+                }
                 last_used_index = i + 1;
                 leading_value = char_val;
             }
